@@ -22,7 +22,7 @@ function updateImportStatements(){
 
     fs.readdir(componentsPath, (err, files) => {
       importStatements = files.map(file => `@import "components/${file.split('.')[0]}"\n`);
-      fs.writeFile(file, importStatements.join(''));
+      fs.writeFile(file, importStatements.sort().join(''));
     });
   }
 }
