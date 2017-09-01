@@ -1,8 +1,8 @@
 /* eslint-env node */
 'use strict';
 
-const path = require('path');
-const fs = require('fs');
+const path  = require('path');
+const fs    = require('fs');
 
 function updateImportStatements(){
   let importStatements = [];
@@ -29,6 +29,29 @@ function updateImportStatements(){
 
 module.exports = {
   description : 'Generates a component. Name must contain a hyphen.',
+
+  fileMapTokens: function() {
+    return {
+      __path__: function(options) {
+        if (options.pod) {
+          return path.join(options.podPath, options.locals.path, options.dasherizedModuleName);
+        }
+        return 'components';
+      },
+      __templatepath__: function(options) {
+        if (options.pod) {
+          return path.join(options.podPath, options.locals.path, options.dasherizedModuleName);
+        }
+        return 'templates/components';
+      },
+      __templatename__: function(options) {
+        if (options.pod) {
+          return 'template';
+        }
+        return options.dasherizedModuleName;
+      }
+    };
+  },
 
   afterInstall() {
     updateImportStatements.bind(this)()
