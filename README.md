@@ -1,6 +1,21 @@
 # ember-cli-syfl-blueprints
 
-This README outlines the details of collaborating on this Ember addon.
+Ember and Ember-Data specific blueprints for Storyful projects.
+
+### Supported blueprints
+
+* component
+* component-test
+
+### Notes on blueprints
+
+#### Component
+
+* Includes namespaced className and makes it available for the template.
+* Uses recomended syntax for components
+* Generates `.sass` file inside components folder
+* Refreshes `_components.sass`
+* Integration tests checks for class presence and if yield works
 
 ## Installation
 
