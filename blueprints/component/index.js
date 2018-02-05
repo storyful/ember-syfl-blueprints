@@ -20,6 +20,7 @@ function updateImportStatements(){
     let componentsPath = path.join('app', 'styles', 'components');
 
     if (!fs.existsSync(stylePath)) {
+      this.ui.writeLine(`creating styles folder`);
       fs.mkdirSync(stylePath);
     }
 
