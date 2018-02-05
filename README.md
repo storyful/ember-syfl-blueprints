@@ -22,7 +22,6 @@ Ember and Ember-Data specific blueprints for Storyful projects.
 * `git clone <repository-url>` this repository
 * `cd ember-cli-syfl-blueprints`
 * `npm install`
-* `bower install`
 
 ## Running
 
