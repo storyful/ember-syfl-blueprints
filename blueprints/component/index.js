@@ -18,6 +18,11 @@ function updateImportStatements(){
       fs.mkdirSync(stylePath);
     }
 
+    if (!fs.existsSync(componentsPath)){
+      this.ui.writeLine(`creating components folder`);
+      fs.mkdirSync(componentsPath);
+    }
+
     this.ui.writeLine(`updating ${file}`);
 
     fs.readdir(componentsPath, (err, files) => {
