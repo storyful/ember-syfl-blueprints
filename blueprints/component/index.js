@@ -1,8 +1,13 @@
 /* eslint-env node */
-'use strict';
 
-const path  = require('path');
-const fs    = require('fs');
+var stringUtil         = require('ember-cli-string-utils');
+var pathUtil           = require('ember-cli-path-utils');
+var validComponentName = require('ember-cli-valid-component-name');
+var getPathOption      = require('ember-cli-get-component-path-option');
+var path               = require('path');
+var fs                 = require('fs');
+
+var normalizeEntityName = require('ember-cli-normalize-entity-name');
 
 function updateImportStatements(){
   let importStatements = [];
@@ -33,7 +38,18 @@ function updateImportStatements(){
 }
 
 module.exports = {
-  description : 'Generates a component. Name must contain a hyphen.',
+  description: 'Generates a component. Name must contain a hyphen.',
+
+  availableOptions: [
+    {
+      name: 'path',
+      type: String,
+      default: 'components',
+      aliases: [
+        { 'no-path': '' }
+      ]
+    }
+  ],
 
   fileMapTokens: function() {
     return {
@@ -58,6 +74,35 @@ module.exports = {
     };
   },
 
+  normalizeEntityName: function(entityName) {
+    entityName = normalizeEntityName(entityName);
+
+    return validComponentName(entityName);
+  },
+
+  locals: function(options) {
+    var templatePath   = '';
+    var importTemplate = '';
+    var contents       = '';
+    // if we're in an addon, build import statement
+    if (options.project.isEmberCLIAddon() || options.inRepoAddon && !options.inDummy) {
+      if (options.pod) {
+        templatePath   = './template';
+      } else {
+        templatePath   = pathUtil.getRelativeParentPath(options.entity.name) +
+          'templates/components/' + stringUtil.dasherize(options.entity.name);
+      }
+      importTemplate   = 'import layout from \'' + templatePath + '\';\n';
+      contents         = '\n  layout';
+    }
+
+    return {
+      importTemplate: importTemplate,
+      contents: contents,
+      path: getPathOption(options)
+    };
+  },
+
   afterInstall() {
     updateImportStatements.bind(this)()
   },
@@ -65,4 +110,5 @@ module.exports = {
   afterUninstall(){
     updateImportStatements.bind(this)()
   }
-}
+
+};
