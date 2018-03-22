@@ -2,6 +2,11 @@
 
 Ember and Ember-Data specific blueprints for Storyful projects.
 
+### How to use inside a project
+
+* $ `yarn add github:storyful/ember-cli-syfl-blueprints --dev`
+* $ `ember g component some-component`
+
 ### Supported blueprints
 
 * component
