@@ -2,17 +2,17 @@
 
 Ember and Ember-Data specific blueprints for Storyful projects.
 
-### How to use inside a project
+## Installation and Usage
+
+### Installation
 
 * $ `yarn add github:storyful/ember-cli-syfl-blueprints --dev`
+
+### Usage
+
 * $ `ember g component some-component`
 
-### Supported blueprints
-
-* component
-* component-test
-
-### Notes on blueprints
+## Notes
 
 #### Component
 
@@ -22,25 +22,23 @@ Ember and Ember-Data specific blueprints for Storyful projects.
 * Refreshes `_components.sass`
 * Integration tests checks for class presence and if yield works
 
-## Installation
+## Contrubuting
+
+### Installation
 
 * `git clone <repository-url>` this repository
 * `cd ember-cli-syfl-blueprints`
 * `npm install`
 
-## Running
+### Running
 
 * `ember serve`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 
-## Running Tests
+### Running Tests
 
 * `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
 * `ember test`
 * `ember test --server`
-
-## Building
-
-* `ember build`
 
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
