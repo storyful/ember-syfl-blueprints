@@ -22,7 +22,7 @@ Ember and Ember-Data specific blueprints for Storyful projects.
 * Refreshes `_components.sass`
 * Integration tests checks for class presence and if yield works
 
-## Contrubuting
+## Contributing
 
 ### Installation
 
