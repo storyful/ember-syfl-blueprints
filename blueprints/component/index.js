@@ -2,6 +2,7 @@
 
 'use strict';
 
+/* eslint-disable */
 const fs   = require('fs');
 const path = require('path');
 const stringUtil = require('ember-cli-string-utils');
@@ -10,6 +11,7 @@ const validComponentName = require('ember-cli-valid-component-name');
 const getPathOption = require('ember-cli-get-component-path-option');
 const normalizeEntityName = require('ember-cli-normalize-entity-name');
 const isModuleUnificationProject = require('../module-unification').isModuleUnificationProject;
+/* eslint-enable */
 
 function updateImportStatements(){
   let importStatements = [];

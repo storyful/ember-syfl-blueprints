@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 var fs = require('fs');
 var path = require('path');
 var VersionChecker = require('ember-cli-version-checker');
