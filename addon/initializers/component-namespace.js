@@ -1,34 +1,54 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
-export function initialize(/* application */) {
-  Ember.Component.reopen({
+/**
+ * This initializer reopens components and injects an NS variable which is
+ * the component's name. It also adds this value to the component's classNames.
+ */
+
+export function initialize( /* application */ ) {
+
+  Component.reopen({
+
     init() {
+
       this._super(...arguments);
 
       try {
-        let arr = this.toString().match(/@component:.+?:/);
-        let className = arr[0].split(':')[1];
-        let ns = Ember.get(this, 'NS');
 
-        if(ns){
-          className = ns;
-        } else {
-          // if it is nested it contains a '/'
-          if (~className.lastIndexOf('/')) {
-            className = className.substring(className.lastIndexOf('/') + 1, className.length);
+        // Gets the name of the component
+        const componentPath = this.toString().match(/@component:.+?:/);
+
+        // Get a potential explicitly set NS value
+        const NS = this.get('NS');
+
+        let className = componentPath ? componentPath[0].split(':')[1] : null;
+
+        // If NS is explicitly set, assign it's value to classNames
+        if (NS) { className = NS; }
+        else {
+
+          const cn = className;
+
+          // If the component is nested...
+          if (~cn.lastIndexOf('/')) {
+            // ... it contains a '/', so we need to split it
+            className = cn.substring(cn.lastIndexOf('/') + 1, cn.length);
           }
 
-          Ember.set(this, 'NS', className);
+          // Set the NS value to the component
+          this.set('NS', className);
         }
 
-        let classNames = this.classNames.concat(className);
-        Ember.set(this, 'classNames', classNames);
+        // Add NS to the components' `classNames`
+        const classNames = this.classNames.concat(className);
+        this.set('classNames', classNames);
 
-      } catch (err) {
-        return;
-      }
+      } catch (err) { return; }
+
     }
+
   });
+  
 }
 
 export default {
