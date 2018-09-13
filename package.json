@@ -1,11 +1,11 @@
 {
   "name": "ember-syfl-blueprints",
   "version": "2.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Adds NS to every component and provides a custom blueprint for components",
   "keywords": [
     "ember-addon"
   ],
-  "repository": "",
+  "repository": "storyful/ember-syfl-blueprints",
   "license": "MIT",
   "author": "",
   "directories": {
