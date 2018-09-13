@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-cli-syfl-blueprints'
+  name: 'ember-syfl-blueprints'
 };

@@ -1,4 +1,4 @@
-# ember-cli-syfl-blueprints
+# ember-syfl-blueprints
 
 Ember and Ember-Data specific blueprints for Storyful projects.
 
@@ -6,7 +6,7 @@ Ember and Ember-Data specific blueprints for Storyful projects.
 
 ### Installation
 
-* $ `yarn add github:storyful/ember-cli-syfl-blueprints --dev`
+* $ `yarn add github:storyful/ember-syfl-blueprints --dev`
 
 ### Usage
 
@@ -27,7 +27,7 @@ Ember and Ember-Data specific blueprints for Storyful projects.
 ### Installation
 
 * `git clone <repository-url>` this repository
-* `cd ember-cli-syfl-blueprints`
+* `cd ember-syfl-blueprints`
 * `npm install`
 
 ### Running
