@@ -32,6 +32,7 @@ Ember and Ember-Data specific blueprints for Storyful projects.
 
 ### Running
 
+* `npm run lint:hbs`
 * `npm run lint:js`
 * `npm run lint:js -- --fix`
 
