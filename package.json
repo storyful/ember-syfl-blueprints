@@ -3,7 +3,10 @@
   "version": "2.0.0",
   "description": "Adds NS to every component and provides a custom blueprint for components",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "blueprints",
+    "components",
+    "initializer"
   ],
   "repository": "storyful/ember-syfl-blueprints",
   "license": "MIT",
