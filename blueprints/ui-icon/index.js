@@ -44,12 +44,12 @@ module.exports = {
     const isSyflIcon = options.syflIcon;
 
     if(this.checkIconExists(newIconName) ){
-      console.log('Icon mapping already exists');
+      console.log('Icon mapping already exists'); // eslint-disable-line no-console
       return;
     }
 
     if(iconFontName && this.checkIconExists(iconFontName, true)){
-      console.log('Icon Font Name already mapped');
+      console.log('Icon Font Name already mapped'); // eslint-disable-line no-console
       return;
     }
 
@@ -66,6 +66,6 @@ module.exports = {
 
     fs.appendFileSync(ICON_FILE, text);
 
-    console.log(`Updated icon file with new icon: ${newIconName}`);
+    console.log(`Updated icon file with new icon: ${newIconName}`); // eslint-disable-line no-console
   }
 };
