@@ -13,19 +13,29 @@ A blueprint to add icons in [`ember-syfl-ui`](https://github.com/storyful/ember-
 
 ### Installation
 
-* $ `npm install ember-syfl-blueprints --save-dev`
+```sh
+$ npm install ember-syfl-blueprints --save-dev
+```
 
 ### Usage
 
 For a component:
-$ `ember g component some-component`
+```sh
+$ ember g component some-component
+```
 
 For an icon:
-$ `ember g ui-icon icon-name`
-$ `ember g ui-icon icon-name --modifier=fas --font-name=checklist`
+```sh
+$ ember g ui-icon icon-name
+```
+```sh
+$ ember g ui-icon icon-name --modifier=fas --font-name=checklist
+```
 
 For a Storyful icon:
-$ `ember g ui-icon icon-name --syfl-icon`
+```sh
+$ ember g ui-icon icon-name --syfl-icon
+```
 
 ## Notes
 
