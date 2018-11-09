@@ -1,10 +1,23 @@
 /* eslint-env node */
-const fs = require('fs'),
-    yaml = require('js-yaml');
+const fs   = require('fs');
+const yaml = require('js-yaml');
 
 const ICON_FILE = './addon/config/icons.yaml';
 
 module.exports = {
+
+  init() {
+    this._super.init && this._super.init.apply(this, arguments);
+
+    try {
+      this.iconsYML = fs.readFileSync(ICON_FILE);
+      this.icons = yaml.load(this.iconsYML);
+    } catch(e) {
+      console.error( // eslint-disable-line no-console
+        `The icon file cannot be found, are you sure you're in ember-syfl-ui?`);
+      throw 'Exiting blueprint.';
+    }
+  },
 
   description: 'Adds an icon to the ui-icon mapping.',
 
@@ -26,72 +39,68 @@ module.exports = {
     }
   ],
 
-  checkIconExists(icon, isFontName){
-    const content = fs.readFileSync(ICON_FILE);
-
-    if(isFontName){
-      return content.toString().indexOf(`: ${icon}`) >= 0
-        || content.toString().indexOf(`name: ${icon}`) >= 0;
-    }
-    else{
-      return content.toString().indexOf(`${icon}:`) >= 0;
-    }
-    
+  _isInYml(searchString) {
+    return this.iconsYML.toString().indexOf(searchString) >= 0;
   },
 
-  createIconString(options){
+  checkIconExists(icon, isFontName){
+    if(isFontName){
+      return this._isInYml(`: ${icon}`) || this._isInYml(`name: ${icon}`);
+    }
+    else {
+      return this._isInYml(`${icon}:`);
+    }    
+  },
+
+  createIconObj(options){
     const newIconName = options.entity.name;
-    const iconFontName = options.fontName;
+    const iconFontName = options.fontName || newIconName; // Defaults back to given name
     const modifier = options.modifier;
     const isSyflIcon = options.syflIcon;
 
     if(this.checkIconExists(newIconName) ){
-      console.log('Icon mapping already exists'); // eslint-disable-line no-console
-      return;
+      throw('Icon mapping already exists, exiting.');
     }
 
     if(iconFontName && this.checkIconExists(iconFontName, true)){
-      console.log('Icon Font Name already mapped'); // eslint-disable-line no-console
-      return;
+      throw ('Icon Font Name already mapped, exiting.');
     }
 
-    let iconString = `\n${newIconName}:`;
-    if(isSyflIcon){
-      iconString = `${iconString}\n  name: ${newIconName}\n  font-prefix: syfl-icon\n  font: syfl-icon-font`;
-    }
-    else{
-      iconString = `${iconString}\n  name: ${iconFontName}`;
-      if(modifier){
-        iconString = `${iconString}\n  modifier: ${modifier}`;
-      }
+    const icon = { name: iconFontName };
+
+    if(isSyflIcon) {
+      icon['font-prefix'] = 'syfl-icon';
+      icon['font'] = 'syfl-icon-font';
     }
 
-    return iconString;
+    if (modifier) icon['modifier'] = modifier;
+
+    return icon;
   },
 
-  sortIcons(){
-    const jsonContent = yaml.load(fs.readFileSync(ICON_FILE, {encoding: 'utf-8'}));
-    let sortedJsonContent = {};
+  getSortedIcons(){
+    // const jsonContent = yaml.load(this.icons);
+    const icons = this.icons;
+    let _output = {};
 
     // sort icons alphabetically
-    Object.keys(jsonContent).sort().forEach(function(key) {
-      sortedJsonContent[key] = jsonContent[key];
+    Object.keys(icons).sort().forEach(function(key) {
+      _output[key] = icons[key];
     });
 
-    return sortedJsonContent;
+    return _output;
   },
 
   beforeInstall(options) {
+    const iconObj     = this.createIconObj(options);
     const newIconName = options.entity.name;
-    const iconString = this.createIconString(options);
-    // add new icon to yaml file
-    fs.appendFileSync(ICON_FILE, iconString);
-    
-    const sortedIcons = this.sortIcons();
+
+    this.icons[newIconName] = iconObj;
+    const sortedIcons = this.getSortedIcons();
+
     // overwrite file by adding alphabetically sorted icons 
     fs.writeFileSync(ICON_FILE, yaml.safeDump(sortedIcons), 'utf8');
 
-    console.log(`Updated icon file with new icon: ${newIconName}`); // eslint-disable-line no-console
-
+    this.ui.writeLine(`Updated icon file with new icon: ${options.entity.name}`);
   }
 };
