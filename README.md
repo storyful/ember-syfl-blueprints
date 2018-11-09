@@ -3,8 +3,11 @@
 This addon injects an `NS` attribute to each component (the name of the component),
 and appends it to the `classNames`.
 
-It also contains a component blueprint that adds a `<COMPONENT-NAME>.sass`
+A custom component blueprint adds a `<COMPONENT-NAME>.sass`
 and includes all `components/*.sass` files in a `_components.sass` file.
+
+A blueprint to add icons in [`ember-syfl-ui`](https://github.com/storyful/ember-syfl-ui)
+
 
 ## Installation and Usage
 
@@ -14,7 +17,15 @@ and includes all `components/*.sass` files in a `_components.sass` file.
 
 ### Usage
 
-* $ `ember g component some-component`
+For a component:
+$ `ember g component some-component`
+
+For an icon:
+$ `ember g ui-icon icon-name`
+$ `ember g ui-icon icon-name --modifier=fas --font-name=checklist`
+
+For a Storyful icon:
+$ `ember g ui-icon icon-name --syfl-icon`
 
 ## Notes
 
