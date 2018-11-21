@@ -15,29 +15,48 @@ const isModuleUnificationProject = require('../module-unification').isModuleUnif
 
 function updateImportStatements(){
   let importStatements = [];
+  let component_name = this.options.entity.name;
   let type = 'sass';
+  const nested = component_name.indexOf('/') >= 0;
+  let nestedFile = null, nestedComponentsPath = null, folder = null;
 
   if (type) {
     let stylePath = path.join('app', 'styles');
-    let file = path.join(stylePath, `_components.${type}`);
-
     let componentsPath = path.join('app', 'styles', 'components');
+    let file =  path.join(stylePath, `_components.${type}`);
+    
+    if(nested){
+      folder = component_name.split('/')[0];
+      nestedFile = path.join(componentsPath, `_${folder}.${type}`);
+      nestedComponentsPath = path.join(componentsPath, folder);
+    }
 
     if (!fs.existsSync(stylePath)) {
       this.ui.writeLine(`creating styles folder`);
       fs.mkdirSync(stylePath);
     }
-
     if (!fs.existsSync(componentsPath)){
       this.ui.writeLine(`creating components folder`);
       fs.mkdirSync(componentsPath);
+    }
+
+    if(nested){
+      if (!fs.existsSync(nestedComponentsPath)){
+        this.ui.writeLine(`creating nested components folder`);
+        fs.mkdirSync(nestedComponentsPath);
+      }
+
+      fs.readdir(nestedComponentsPath, (err, files) => {
+        importStatements = files.map(file => `@import "components/${folder}/${file.split('.')[0]}"\n`);
+        const importStatementSorted = importStatements.sort().join('');
+        fs.writeFileSync(nestedFile, importStatementSorted);
+      });
     }
 
     this.ui.writeLine(`\n 🖌️  -- updating ${file}\n`);
 
     fs.readdir(componentsPath, (err, files) => {
       importStatements = files.map(file => `@import "components/${file.split('.')[0]}"\n`);
-      
       const importStatementSorted = importStatements.sort().join('');
 
       fs.writeFileSync(file, importStatementSorted);
@@ -141,6 +160,7 @@ module.exports = {
   },
 
   afterInstall() {
+    console.log('here');
     updateImportStatements.bind(this)()
   },
 
