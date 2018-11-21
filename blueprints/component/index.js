@@ -46,6 +46,8 @@ function updateImportStatements(){
         fs.mkdirSync(nestedComponentsPath);
       }
 
+      this.ui.writeLine(`\n 🖌️  -- updating ${nestedFile}\n`);
+
       fs.readdir(nestedComponentsPath, (err, files) => {
         importStatements = files.map(file => `@import "components/${folder}/${file.split('.')[0]}"\n`);
         const importStatementSorted = importStatements.sort().join('');
@@ -160,7 +162,6 @@ module.exports = {
   },
 
   afterInstall() {
-    console.log('here');
     updateImportStatements.bind(this)()
   },
 
