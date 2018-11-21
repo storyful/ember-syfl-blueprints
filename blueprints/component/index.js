@@ -49,7 +49,7 @@ function updateImportStatements(){
       this.ui.writeLine(`\n 🖌️  -- updating ${nestedFile}\n`);
 
       fs.readdir(nestedComponentsPath, (err, files) => {
-        importStatements = files.map(file => `@import "components/${folder}/${file.split('.')[0]}"\n`);
+        importStatements = files.map(file => `@import "${folder}/${file.split('.')[0]}"\n`);
         const importStatementSorted = importStatements.sort().join('');
         fs.writeFileSync(nestedFile, importStatementSorted);
       });
