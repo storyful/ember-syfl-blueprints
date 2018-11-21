@@ -58,7 +58,11 @@ function updateImportStatements(){
     this.ui.writeLine(`\n 🖌️  -- updating ${file}\n`);
 
     fs.readdir(componentsPath, (err, files) => {
-      importStatements = files.map(file => `@import "components/${file.split('.')[0]}"\n`);
+      importStatements = files.map(file => {
+        if(file.indexOf('.') >= 0){
+          return `@import "components/${file.split('.')[0]}"\n`;
+        }
+      });
       const importStatementSorted = importStatements.sort().join('');
 
       fs.writeFileSync(file, importStatementSorted);
