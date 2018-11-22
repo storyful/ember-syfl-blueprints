@@ -17,7 +17,7 @@ function updateImportStatements(){
   let importStatements = [];
   let component_name = this.options.entity.name;
   let type = 'sass';
-  const nested = component_name.indexOf('/') >= 0;
+  const nested = component_name.indexOf('/') > -1;
   let nestedFile = null, nestedComponentsPath = null, folder = null;
 
   if (type) {
@@ -59,7 +59,7 @@ function updateImportStatements(){
 
     fs.readdir(componentsPath, (err, files) => {
       importStatements = files.map(file => {
-        if(file.indexOf('.') >= 0){
+        if(file.indexOf('.') > -1){
           return `@import "components/${file.split('.')[0]}"\n`;
         }
       });
