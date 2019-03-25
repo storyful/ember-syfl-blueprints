@@ -6,6 +6,16 @@ and appends it to the `classNames`.
 A custom component blueprint adds a `<COMPONENT-NAME>.sass`
 and includes all `components/*.sass` files in a `_components.sass` file.
 
+Compatibility
+------------------------------------------------------------------------------
+
+* Ember.js v2.18 or above
+* Ember CLI v2.13 or above
+
+
+Installation
+------------------------------------------------------------------------------
+
 A blueprint to add icons in [`ember-syfl-ui`](https://github.com/storyful/ember-syfl-ui)
 
 
@@ -64,7 +74,6 @@ $ ember g ui-icon icon-name --syfl-icon
 If you'd like to add changes, please send a PR with your changes and make sure
 at least one other person reviews it!
 
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
 
 License
 ------------------------------------------------------------------------------
