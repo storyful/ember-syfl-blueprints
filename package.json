@@ -1,6 +1,6 @@
 {
   "name": "ember-syfl-blueprints",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Adds NS to every component and provides a custom blueprints",
   "keywords": [
     "ember-addon",
