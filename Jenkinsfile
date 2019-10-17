@@ -4,11 +4,13 @@ pipeline {
   environment {
     CODE_VERSION="${BRANCH_NAME}-${BUILD_NUMBER}"
     COMPOSE_PROJECT_NAME="ember-syfl-blueprints_${CODE_VERSION}"
-    GITHUB_TOKEN = credentials('github')
   }
 
   stages {
     stage('Test Environment Setup') {
+      environment {
+        GITHUB_TOKEN = credentials('github')
+      }
       steps {
         sh 'docker-compose build'
       }
