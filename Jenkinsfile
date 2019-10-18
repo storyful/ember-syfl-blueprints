@@ -15,16 +15,14 @@ pipeline {
         sh 'docker-compose build'
       }
     }
-    stage('Run checks') {
-      steps {
-        parallel(
-          "Run Ember tests": {
-            sh 'docker-compose run ember_syfl_blueprints npm test'
-          },
-          "Run package audit": {
-            sh 'docker-compose run ember_syfl_blueprints npm audit --audit-level=moderate'
-          }
-        )
+    stage('Run Ember tests') {
+      steps  {
+        sh 'docker-compose run ember_syfl_blueprints npm test'
+      }
+    }
+    stage('Run package audit') {
+      steps  {
+        sh 'docker-compose run ember_syfl_blueprints npm audit --audit-level=moderate'
       }
     }
   }
