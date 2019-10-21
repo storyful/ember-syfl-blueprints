@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+
+  # Ember
+  ember_syfl_blueprints:
+    build:
+      context: .
+      args:
+        - GITHUB_TOKEN
+    volumes:
+      - ./addon:/opt/ember_syfl_blueprints/addon:delegated
+      - ./app:/opt/ember_syfl_blueprints/app:delegated
+      - ./tests:/opt/ember_syfl_blueprints/tests:delegated
+    ports:
+      # Bind the host's 4200 port to the container's ember app server
+      # port 4200:
+      - 4200:4200
+      # Bind the host's 35730 port to the container's ember cli live reload
+      # server port 35730:
+      - 35730:35730
