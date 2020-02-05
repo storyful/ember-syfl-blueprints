@@ -1,4 +1,8 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 <%= importTemplate %>
-export default Component.extend({<%= contents %>
-});
+export default class <%= className %> extends Component {
+  <%= contents %>
+
+  NS = '<%= namespace %>';
+};
+
