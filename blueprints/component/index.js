@@ -121,7 +121,7 @@ module.exports = {
           if (options.pod) {
             return path.join(options.podPath, options.locals.path, options.dasherizedModuleName);
           }
-          return 'templates/components';
+          return 'components';
         },
         __templatename__: function(options) {
           if (options.pod) {
@@ -151,17 +151,19 @@ module.exports = {
       } else {
         templatePath =
           pathUtil.getRelativeParentPath(options.entity.name) +
-          'templates/components/' +
+          'components/' +
           stringUtil.dasherize(options.entity.name);
       }
       importTemplate = "import layout from '" + templatePath + "';\n";
-      contents = '\n  layout';
+      contents = '\n  layout = layout;';
     }
 
     return {
       importTemplate: importTemplate,
       contents: contents,
       path: getPathOption(options),
+      namespace: stringUtil.dasherize(options.entity.name),
+      className: stringUtil.classify(options.entity.name)
     };
   },
 
