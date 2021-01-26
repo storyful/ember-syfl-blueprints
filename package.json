@@ -26,17 +26,12 @@
     "start": "ember serve",
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test",
-    "test:ember-compatibility": "ember try:each",
-    "preinstall": "npx npm-force-resolutions"
+    "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
     "ember-cli-babel": "^7.23.0",
     "ember-cli-htmlbars": "^5.3.1",
     "ember-cli-valid-component-name": "^1.0.0"
-  },
-  "resolutions": {
-    "clean-css": "4.1.11",
-    "minimist": "1.2.3"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
