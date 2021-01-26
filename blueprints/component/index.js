@@ -3,29 +3,33 @@
 'use strict';
 
 /* eslint-disable */
-const fs   = require('fs');
+const fs = require('fs');
 const path = require('path');
-const stringUtil = require('ember-cli-string-utils');
+const stringUtil = require('@ember/string');
 const pathUtil = require('ember-cli-path-utils');
 const validComponentName = require('ember-cli-valid-component-name');
 const getPathOption = require('ember-cli-get-component-path-option');
 const normalizeEntityName = require('ember-cli-normalize-entity-name');
-const isModuleUnificationProject = require('../module-unification').isModuleUnificationProject;
+const isModuleUnificationProject = require('../module-unification')
+  .isModuleUnificationProject;
 /* eslint-enable */
 
-function updateImportStatements(){
+/* eslint-disable ember/no-string-prototype-extensions */
+function updateImportStatements() {
   let importStatements = [];
   let component_name = this.options.entity.name;
   let type = 'sass';
   const nested = component_name.indexOf('/') > -1;
-  let nestedFile = null, nestedComponentsPath = null, folder = null;
+  let nestedFile = null,
+    nestedComponentsPath = null,
+    folder = null;
 
   if (type) {
     let stylePath = path.join('app', 'styles');
     let componentsPath = path.join('app', 'styles', 'components');
-    let file =  path.join(stylePath, `_components.${type}`);
-    
-    if(nested){
+    let file = path.join(stylePath, `_components.${type}`);
+
+    if (nested) {
       folder = component_name.split('/')[0];
       nestedFile = path.join(componentsPath, `_${folder}.${type}`);
       nestedComponentsPath = path.join(componentsPath, folder);
@@ -35,13 +39,13 @@ function updateImportStatements(){
       this.ui.writeLine(`creating styles folder`);
       fs.mkdirSync(stylePath);
     }
-    if (!fs.existsSync(componentsPath)){
+    if (!fs.existsSync(componentsPath)) {
       this.ui.writeLine(`creating components folder`);
       fs.mkdirSync(componentsPath);
     }
 
-    if(nested){
-      if (!fs.existsSync(nestedComponentsPath)){
+    if (nested) {
+      if (!fs.existsSync(nestedComponentsPath)) {
         this.ui.writeLine(`creating nested components folder`);
         fs.mkdirSync(nestedComponentsPath);
       }
@@ -49,7 +53,9 @@ function updateImportStatements(){
       this.ui.writeLine(`\n 🖌️  -- updating ${nestedFile}\n`);
 
       fs.readdir(nestedComponentsPath, (err, files) => {
-        importStatements = files.map(file => `@import "${folder}/${file.split('.')[0]}"\n`);
+        importStatements = files.map(
+          (file) => `@import "${folder}/${file.split('.')[0]}"\n`
+        );
         const importStatementSorted = importStatements.sort().join('');
         fs.writeFileSync(nestedFile, importStatementSorted);
       });
@@ -58,8 +64,8 @@ function updateImportStatements(){
     this.ui.writeLine(`\n 🖌️  -- updating ${file}\n`);
 
     fs.readdir(componentsPath, (err, files) => {
-      importStatements = files.map(file => {
-        if(file.indexOf('.') > -1){
+      importStatements = files.map((file) => {
+        if (file.indexOf('.') > -1) {
           return `@import "components/${file.split('.')[0]}"\n`;
         }
       });
@@ -71,7 +77,8 @@ function updateImportStatements(){
 }
 
 module.exports = {
-  description: 'Generates a component (and associated style files). Name must contain a hyphen.',
+  description:
+    'Generates a component (and associated style files). Name must contain a hyphen.',
 
   availableOptions: [
     {
@@ -82,7 +89,7 @@ module.exports = {
     },
   ],
 
-  filesPath: function() {
+  filesPath: function () {
     let filesDirectory = 'files';
 
     if (isModuleUnificationProject(this.project)) {
@@ -92,7 +99,7 @@ module.exports = {
     return path.join(this.path, filesDirectory);
   },
 
-  fileMapTokens: function() {
+  fileMapTokens: function () {
     if (isModuleUnificationProject(this.project)) {
       return {
         __root__(options) {
@@ -110,20 +117,28 @@ module.exports = {
       };
     } else {
       return {
-        __path__: function(options) {
+        __path__: function (options) {
           if (options.pod) {
-            return path.join(options.podPath, options.locals.path, options.dasherizedModuleName);
+            return path.join(
+              options.podPath,
+              options.locals.path,
+              options.dasherizedModuleName
+            );
           } else {
             return 'components';
           }
         },
-        __templatepath__: function(options) {
+        __templatepath__: function (options) {
           if (options.pod) {
-            return path.join(options.podPath, options.locals.path, options.dasherizedModuleName);
+            return path.join(
+              options.podPath,
+              options.locals.path,
+              options.dasherizedModuleName
+            );
           }
           return 'components';
         },
-        __templatename__: function(options) {
+        __templatename__: function (options) {
           if (options.pod) {
             return 'template';
           }
@@ -133,19 +148,22 @@ module.exports = {
     }
   },
 
-  normalizeEntityName: function(entityName) {
+  normalizeEntityName: function (entityName) {
     entityName = normalizeEntityName(entityName);
 
     return validComponentName(entityName);
   },
 
-  locals: function(options) {
+  locals: function (options) {
     let templatePath = '';
     let importTemplate = '';
     let contents = '';
 
     // if we're in an addon, build import statement
-    if (options.project.isEmberCLIAddon() || (options.inRepoAddon && !options.inDummy)) {
+    if (
+      options.project.isEmberCLIAddon() ||
+      (options.inRepoAddon && !options.inDummy)
+    ) {
       if (options.pod) {
         templatePath = './template';
       } else {
@@ -163,15 +181,16 @@ module.exports = {
       contents: contents,
       path: getPathOption(options),
       namespace: stringUtil.dasherize(options.entity.name),
-      className: stringUtil.classify(options.entity.name)
+      className: stringUtil.classify(options.entity.name),
     };
   },
 
   afterInstall() {
-    updateImportStatements.bind(this)()
+    updateImportStatements.bind(this)();
   },
 
-  afterUninstall(){
-    updateImportStatements.bind(this)()
-  }
+  afterUninstall() {
+    updateImportStatements.bind(this)();
+  },
 };
+/* eslint-enable ember/no-string-prototype-extensions */

@@ -3,6 +3,8 @@
 
 module.exports = {
   isModuleUnificationProject(project) {
-    return project && project.isModuleUnification && project.isModuleUnification();
+    return (
+      project && project.isModuleUnification && project.isModuleUnification()
+    );
   },
 };
