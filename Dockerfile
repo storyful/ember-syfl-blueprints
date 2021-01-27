@@ -1,4 +1,4 @@
-FROM node:10 as NODE_MODULES
+FROM node:14 as NODE_MODULES
 
 ARG GITHUB_TOKEN
 
@@ -10,12 +10,12 @@ RUN git config --global url."https://${GITHUB_TOKEN}@github.com".insteadOf ssh:/
     && npm install \
     && git config --global --remove-section url."https://${GITHUB_TOKEN}@github.com"
 
-FROM node:10
+FROM node:14
 
 LABEL name="ember_syfl_blueprints"
 LABEL version="0.0.0"
 
-RUN apt-get update \ 
+RUN apt-get update \
     && apt-get install -y apt-transport-https ca-certificates curl gnupg --no-install-recommends \
 	&& curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
 	&& echo "deb https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
@@ -33,8 +33,8 @@ COPY --from=NODE_MODULES node_modules/ node_modules/
 
 COPY . .
 
-# set container bash prompt color to blue in order to 
-# differentiate container terminal sessions from host 
+# set container bash prompt color to blue in order to
+# differentiate container terminal sessions from host
 # terminal sessions
 RUN \
 	echo 'PS1="\[\\e[0;94m\]${debian_chroot:+($debian_chroot)}\\u@\\h:\\w\\\\$\[\\e[m\] "' >> ~/.bashrc

@@ -1,1 +1,4 @@
-export { default, initialize } from 'ember-syfl-blueprints/initializers/component-namespace';
+export {
+  default,
+  initialize,
+} from 'ember-syfl-blueprints/initializers/component-namespace';
