@@ -1,4 +1,4 @@
-FROM node:14 as NODE_MODULES
+FROM node:16.6.1 as NODE_MODULES
 
 ARG GITHUB_TOKEN
 
@@ -10,7 +10,7 @@ RUN git config --global url."https://${GITHUB_TOKEN}@github.com".insteadOf ssh:/
     && npm install \
     && git config --global --remove-section url."https://${GITHUB_TOKEN}@github.com"
 
-FROM node:14
+FROM node:16.6.1
 
 LABEL name="ember_syfl_blueprints"
 LABEL version="0.0.0"
