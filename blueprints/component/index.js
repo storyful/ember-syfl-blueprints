@@ -14,6 +14,9 @@ const isModuleUnificationProject = require('../module-unification')
   .isModuleUnificationProject;
 /* eslint-enable */
 
+// add more dot files here if you need
+const IGNORED_FILES = ['.DS_Store', '.gitkeep'];
+
 /* eslint-disable ember/no-string-prototype-extensions */
 function updateImportStatements() {
   let importStatements = [];
@@ -66,7 +69,9 @@ function updateImportStatements() {
     fs.readdir(componentsPath, (err, files) => {
       importStatements = files.map((file) => {
         if (file.indexOf('.') > -1) {
-          return `@import "components/${file.split('.')[0]}"\n`;
+          if (!IGNORED_FILES.includes(file)) {
+            return `@import "components/${file.split('.')[0]}"\n`;
+          }
         }
       });
       const importStatementSorted = importStatements.sort().join('');
